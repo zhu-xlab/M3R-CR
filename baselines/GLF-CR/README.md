@@ -27,7 +27,7 @@ pip install timm
 ```
 
 ## Get Started
-You can download the pretrained model from [It will be will be released soon] and put it in './cpkg'.
+You can download the pretrained model from [It will be released soon] and put it in './cpkg'.
 
 Use the following command to test the neural network:
 ```
