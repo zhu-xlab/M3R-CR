@@ -1,7 +1,7 @@
 # High-Resolution Cloud Removal with Multi-Modal and Multi-Resolution Data Fusion: A New Baseline and Benchmark
 
 M3R-CR is the first public dataset for cloud removal to feature globally sampled high resolution optical observations, in combination with paired radar measurements as well as pixel-level land cover annotations. With this dataset, we consider the problem of cloud removal in high resolution optical remote sensing imagery by integrating multi-modal and multi-resolution information. 
-![dataset](./figs/dataset.png)
+![dataset](./figs/dataset-r1.png)
 
 
 
