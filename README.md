@@ -5,6 +5,9 @@ M3R-CR is the first public dataset for cloud removal to feature globally sampled
 
 
 
+
+
+
 The major characteristics of this dataset are summarized as follows:
 
 - **High Spatial Resolution**. Unlike existing publicly available cloud removal datasets, which are primarily built on mediumresolution Landsat-8 or Sentinel-2 data, our dataset is constructed using high-resolution PlanetScope data. As a result, it fulfills the requirement of high-resolution cloud removal datasets. It provides the opportunity to push the frontier of current cloud removal models on recovering clear edge and rich texture detail of high-resolution remote sensing imagery
