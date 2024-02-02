@@ -336,7 +336,7 @@ if __name__ == "__main__":
     parser=argparse.ArgumentParser()
     parser.add_argument('--load_size', type=int, default=300)
     parser.add_argument('--crop_size', type=int, default=160)
-    parser.add_argument('--input_data_folder', type=str, default='../../Planet-CR/train')
+    parser.add_argument('--input_data_folder', type=str, default='../../M3M-CR/train')
 
     parser.add_argument('--is_load_SAR', type=bool, default=True)
     parser.add_argument('--is_upsample_SAR', type=bool, default=True) # only useful when is_load_SAR = True
@@ -347,7 +347,7 @@ if __name__ == "__main__":
 
     parser.add_argument('--is_load_cloudmask', type=bool, default=True)
 
-    parser.add_argument('--data_list_filepath', type=str, default='../../Planet-CR/one_train_sample.csv')
+    parser.add_argument('--data_list_filepath', type=str, default='../../M3M-CR/one_train_sample.csv')
     
     opts = parser.parse_args() 
 

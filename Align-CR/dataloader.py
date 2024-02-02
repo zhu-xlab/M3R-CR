@@ -9,6 +9,21 @@ import torch
 from torch.utils.data import Dataset
 
 '''
+read csv
+'''
+def get_filelist(listpath):
+
+    filelist = []
+    list_csv_file = open(listpath, "r")
+    list_reader = csv.reader(list_csv_file)
+    for item in list_reader:
+        filelist.append(item)
+    list_csv_file.close()
+
+    return filelist
+
+'''
+read optical images
 '''
 def get_opt_image(path):
 
@@ -20,6 +35,7 @@ def get_opt_image(path):
     return image.astype('float32')
 
 '''
+read SAR images
 '''
 def get_sar_image(path, load_size, is_upsample_SAR):
 
@@ -34,6 +50,7 @@ def get_sar_image(path, load_size, is_upsample_SAR):
     return image.astype('float32')
  
 '''
+read land cover maps
 '''   
 def get_landcover_image(path, load_size, is_upsample_landcover):
     
@@ -49,6 +66,7 @@ def get_landcover_image(path, load_size, is_upsample_landcover):
     return image.astype('float32')
 
 '''
+normalize the optical and SAR data
 '''
 def get_normalized_data(data_image, data_type):
 
@@ -73,6 +91,7 @@ def get_normalized_data(data_image, data_type):
     return data_image
 
 '''
+map the values of land cover maps
 '''
 def lc_category_map(data_image, lc_level):
     '''
@@ -115,6 +134,7 @@ def lc_category_map(data_image, lc_level):
     return data_image
 
 '''
+train dataloader
 '''
 class TrainDataset(Dataset):
 
@@ -130,6 +150,11 @@ class TrainDataset(Dataset):
         self.load_size = opts.load_size
         self.crop_size = opts.crop_size
 
+        if (self.is_load_SAR and not self.is_upsample_SAR) or (self.is_load_landcover and not self.is_upsample_landcover):
+            self.crop_size_10m = self.crop_size*3/10
+            assert self.crop_size_10m.is_integer()
+            self.crop_size_10m = int(self.crop_size_10m)
+            
         self.filelist = filelist
         self.n_images = len(self.filelist)
 
@@ -180,12 +205,12 @@ class TrainDataset(Dataset):
                     if self.is_upsample_SAR:
                         s1_data = s1_data[..., y_3m:y_3m+self.crop_size, x_3m:x_3m+self.crop_size]
                     else:
-                        s1_data = s1_data[..., y_10m:y_10m+int(self.crop_size*3/10), x_10m:x_10m+int(self.crop_size*3/10)]
+                        s1_data = s1_data[..., y_10m:y_10m+self.crop_size_10m, x_10m:x_10m+self.crop_size_10m]
                 if self.is_load_landcover:
                     if self.is_upsample_landcover:
                         lc_data = lc_data[..., y_3m:y_3m+self.crop_size, x_3m:x_3m+self.crop_size]
                     else:
-                        lc_data = lc_data[..., y_10m:y_10m+int(self.crop_size*3/10), x_10m:x_10m+int(self.crop_size*3/10)]
+                        lc_data = lc_data[..., y_10m:y_10m+self.crop_size_10m, x_10m:x_10m+self.crop_size_10m]
             else:
                 y = random.randint(0, np.maximum(0, self.load_size - self.crop_size))
                 x = random.randint(0, np.maximum(0, self.load_size - self.crop_size))
@@ -213,10 +238,10 @@ class TrainDataset(Dataset):
         return results
 
     def __len__(self):
-        """Return the total number of images in the dataset."""
         return self.n_images
 
 '''
+val dataloader
 '''
 class ValDataset(Dataset):
 
@@ -231,6 +256,11 @@ class ValDataset(Dataset):
         self.is_load_cloudmask = opts.is_load_cloudmask
         self.load_size = opts.load_size
         self.crop_size = opts.crop_size
+
+        if (self.is_load_SAR and not self.is_upsample_SAR) or (self.is_load_landcover and not self.is_upsample_landcover):
+            self.crop_size_10m = self.crop_size*3/10
+            assert self.crop_size_10m.is_integer()
+            self.crop_size_10m = int(self.crop_size_10m)
 
         self.filelist = filelist
         self.n_images = len(self.filelist)
@@ -282,12 +312,12 @@ class ValDataset(Dataset):
                     if self.is_upsample_SAR:
                         s1_data = s1_data[..., y_3m:y_3m+self.crop_size, x_3m:x_3m+self.crop_size]
                     else:
-                        s1_data = s1_data[..., y_10m:y_10m+int(self.crop_size*3/10), x_10m:x_10m+int(self.crop_size*3/10)]
+                        s1_data = s1_data[..., y_10m:y_10m+self.crop_size_10m, x_10m:x_10m+self.crop_size_10m]
                 if self.is_load_landcover:
                     if self.is_upsample_landcover:
                         lc_data = lc_data[..., y_3m:y_3m+self.crop_size, x_3m:x_3m+self.crop_size]
                     else:
-                        lc_data = lc_data[..., y_10m:y_10m+int(self.crop_size*3/10), x_10m:x_10m+int(self.crop_size*3/10)]
+                        lc_data = lc_data[..., y_10m:y_10m+self.crop_size_10m, x_10m:x_10m+self.crop_size_10m]
             else:
                 y = np.maximum(0, self.load_size - self.crop_size)//2
                 x = np.maximum(0, self.load_size - self.crop_size)//2
@@ -315,28 +345,14 @@ class ValDataset(Dataset):
         return results
 
     def __len__(self):
-        """Return the total number of images in the dataset."""
         return self.n_images
-
-'''
-'''
-def get_filelist(listpath):
-
-    filelist = []
-    list_csv_file = open(listpath, "r")
-    list_reader = csv.reader(list_csv_file)
-    for item in list_reader:
-        filelist.append(item)
-    list_csv_file.close()
-
-    return filelist
 
 if __name__ == "__main__":
     ##===================================================##
     parser=argparse.ArgumentParser()
     parser.add_argument('--load_size', type=int, default=300)
     parser.add_argument('--crop_size', type=int, default=160)
-    parser.add_argument('--input_data_folder', type=str, default='../../M3M-CR/train')
+    parser.add_argument('--input_data_folder', type=str, default='../M3M-CR/train')
 
     parser.add_argument('--is_load_SAR', type=bool, default=True)
     parser.add_argument('--is_upsample_SAR', type=bool, default=True) # only useful when is_load_SAR = True
@@ -347,7 +363,7 @@ if __name__ == "__main__":
 
     parser.add_argument('--is_load_cloudmask', type=bool, default=True)
 
-    parser.add_argument('--data_list_filepath', type=str, default='../../M3M-CR/one_train_sample.csv')
+    parser.add_argument('--data_list_filepath', type=str, default='../M3M-CR/one_train_sample.csv')
     
     opts = parser.parse_args() 
 
@@ -377,3 +393,4 @@ if __name__ == "__main__":
             print('cloudmask_data:', cm_data.shape)
         
         _iter += 1
+        input()

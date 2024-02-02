@@ -71,8 +71,8 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--batch_sz', type=int, default=1, help='batch size used for training')
 
-    parser.add_argument('--input_data_folder', type=str, default='../../M3M-CR/test')
-    parser.add_argument('--test_list_filepath', type=str, default='../../M3M-CR/one_test_sample.csv')
+    parser.add_argument('--input_data_folder', type=str, default='../M3M-CR/test')
+    parser.add_argument('--test_list_filepath', type=str, default='../M3M-CR/one_test_sample.csv')
     parser.add_argument('--is_load_SAR', type=bool, default=True)
     parser.add_argument('--is_upsample_SAR', type=bool, default=True) # only useful when is_load_SAR = True
     parser.add_argument('--is_load_landcover', type=bool, default=False)
@@ -89,7 +89,7 @@ def main():
     CR_net = RDN_residual_CR(opts.model_train_size).cuda()
     CR_net = nn.DataParallel(CR_net)
 
-    checkpoint = torch.load('./cpkg/GLF-CR.pth')
+    checkpoint = torch.load('./cpkg/Align_CR.pth')
     CR_net.load_state_dict(checkpoint['network'])
 
     CR_net.eval()

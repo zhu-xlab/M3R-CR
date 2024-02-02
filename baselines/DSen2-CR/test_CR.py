@@ -72,8 +72,8 @@ def main():
     parser.add_argument('--n_feats', type=int, default=256)
     parser.add_argument('--res_scale', type=float, default=0.1)
 
-    parser.add_argument('--input_data_folder', type=str, default='../../Planet-CR/test')
-    parser.add_argument('--test_list_filepath', type=str, default='../../Planet-CR/one_test_sample.csv')
+    parser.add_argument('--input_data_folder', type=str, default='../../M3M-CR/test')
+    parser.add_argument('--test_list_filepath', type=str, default='../../M3M-CR/one_test_sample.csv')
     parser.add_argument('--is_load_SAR', type=bool, default=True)
     parser.add_argument('--is_upsample_SAR', type=bool, default=True) # only useful when is_load_SAR = True
     parser.add_argument('--is_load_landcover', type=bool, default=False)
