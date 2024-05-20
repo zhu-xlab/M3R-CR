@@ -29,7 +29,7 @@ detail of high-resolution remote-sensing imagery
 
 ## Dataset
 
-The M3R-CR dataset contains 780 different AOIs across the globe from all meteorological seasons, each of which contains a quartet of orthorectified, geo-referenced cloudy and cloud-free [**PlanetScope images**](https://developers.planet.com/docs/apis/data/), as well as the corresponding [**Sentinel-1 SAR image**](https://sentinels.copernicus.eu/web/sentinel/missions/sentinel-1) and [**WorldCover land cover map**](https://worldcover2020.esa.int/). The complete dataset will be released soon (If you want to use the complete dataset now, please register at https://www.planet.com/markets/education-and-research/, and get the link of the dataset from xufang@whu.edu.cn. M3M-CR is only for acadamic research.)
+The M3R-CR dataset contains 780 different AOIs across the globe from all meteorological seasons, each of which contains a quartet of orthorectified, geo-referenced cloudy and cloud-free [**PlanetScope images**](https://developers.planet.com/docs/apis/data/), as well as the corresponding [**Sentinel-1 SAR image**](https://sentinels.copernicus.eu/web/sentinel/missions/sentinel-1) and [**WorldCover land cover map**](https://worldcover2020.esa.int/). The complete dataset will be released soon (For access to the complete dataset, kindly register at https://www.planet.com/markets/education-and-research/, and obtain the dataset link by contacting xufang@whu.edu.cn. Please note that M3M-CR is exclusively for academic research purposes.)
 
 ## Data Loading and Preprocessing
 
